@@ -11,7 +11,7 @@ def main():
         return
     """
     
-    equation_str = '-8 *X^0+ X - 4 * X^2 + 2 * X^3 = X'
+    equation_str = '-8.5 - X^1 - X^2 + 2 * X^3 = X'
     # ------ for later -------
     #EquationLeft = EquationSide(sys.argv[1], 'Left')
     #EquationRight = EquationSide(sys.argv[1], 'Right')
@@ -26,8 +26,11 @@ def main():
 
 
     #print("terme")
-    print(EquationLeft.splitForxPower())
-    #print(EquationRight.splitForxPower())
+    print(EquationLeft.coefPol)
+    
+    for key ,value in EquationLeft.coefPol.items():
+        print('key ------>', key, ' | value ----->', value)
+    #print(EquationRight.splitForCoefPol())
 
 
 

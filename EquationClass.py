@@ -20,7 +20,7 @@ class EquationSide:
         """
         self.splitedEquation: str = self.split_LorR(equation, side)  # Full equation
         self.length: int = len(self.splitedEquation)  # Length of the full equation
-        self.xPower: Dict[str, int] = {}  # Dictionary to store the powers of 'x' in the equation
+        self.coefPol: OrderedDict[str, float] = self.splitForCoefPol()  # Ordered Dictionary to store the powers of 'x' in the equation
 
     def split_LorR(self, equation: str, side: str):
         """
@@ -36,32 +36,70 @@ class EquationSide:
         else:
             return parts[1].strip()
         
-    def splitForxPower(self):
+    def splitForCoefPol(self):
+        coefPol: OrderedDict[str, float] = {}
         terms = re.split(r'\s*([+-])\s*', self.splitedEquation)
         if terms[0] == '':
             terms.pop(0)
         i = 0
         if terms[0] == '-':
             i = 1
-        xPower = ''
-        coefficient = 0
+        
         while i < len(terms):
+            if i >= 1:
+                terms[i] = terms[i - 1] + terms[i]
             coefficient = self.find_coef(terms[i])
-            print("terme", terms[i])
-            print(coefficient)
+            power = self.find_power((terms[i]))
+            coefPol[power] = coefficient
             i+=2
         
-        return terms
+        return coefPol
+
+    def find_coef(self, formula: str) -> float:
+        """
+        Find the coefficient of the formula and return it as a float. 
     
-    def find_coef(self, formula: str) -> int:
+        Parameters:
+        formula (str): The formula from which to extract the coefficient.
+        
+        Note:
+        If the coefficient is not explicitly specified in the formula, 
+        this function returns either 1 or -1 depending on the presence of a minus sign ('-') at the beginning of the formula.
+        """
+        neg = ''
+        if formula.startswith('-'):
+            neg = '-'
         position = formula.find('*')
+        numbers = re.findall(r'-?\d*\.?\d+', formula)
+        
         if position != -1:
-            return int(formula.split('*')[0])
+            return float(formula.split('*')[0])
+        elif numbers and (formula[0] != 'X' and formula[1] != 'X'):
+                return float(numbers[0])
         else:
-            return 1
+            return float(neg + '1')
+
+    def find_power(self, formula: str) -> str:        
+        """
+        find the power of the formula and return it as a string.
+
+        Parameters
+        formula (str): The formula from which to extract the power.
+
+        Note:
+        If the coefficient is not explicitly specified in the formula, 
+        this function returns 1
+        """
         
+        positionX = formula.find('X')
+        positionXPower = formula.find("X^")
         
-        
+        if positionXPower != -1:
+            return formula.split('X^')[1]
+        elif positionX != -1:
+            return '1'
+        else:
+            return '0'
         
         
         
