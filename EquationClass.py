@@ -1,6 +1,5 @@
 import re
 
-
 class EquationSide:
     """
     A class which takes a polynomial equation as an argument and 
@@ -74,7 +73,7 @@ class EquationSide:
         
         if position != -1:
             return float(formula.split('*')[0])
-        elif numbers and (formula[0] != 'X' and formula[1] != 'X'):
+        elif numbers and (len(formula) < 2 or (formula[0] != 'X' and formula[1] != 'X')):
                 return float(numbers[0])
         else:
             return float(neg + '1')

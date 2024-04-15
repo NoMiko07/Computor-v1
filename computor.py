@@ -1,12 +1,26 @@
 import sys
 from EquationClass import EquationSide
 import re
-
+import math
 
 from colorama import init, Fore
 
 
-def reduce_equation(longuest_equation, shortest_equation):
+def equation_balancing(longuest_equation, shortest_equation):
+    """ Balance the equation so that the result is equal to 0.
+
+   This function takes two equations as input, 'longuest_equation' and 'shortest_equation',
+   represented as dictionaries where keys are the powers of 'X' and values are the coefficients
+   of each term. It subtracts corresponding terms from 'longuest_equation' and 'shortest_equation'
+   to ensure that the resulting equation is balanced and equals 0.
+
+   Parameters:
+   - longuest_equation (OrderedDict[str, float]): The longest equation.
+   - shortest_equation (OrderedDict[str, float]): The shortest equation.
+
+   Returns:
+   - OrderedDict[str, float]: The balanced equation.
+   """
     key_to_delete = []
     for longuest_equation_key ,longuest_equation_value in longuest_equation.items():
         for shortest_equation_key ,shortest_equation_value in shortest_equation.items():
@@ -24,6 +38,8 @@ def reduce_equation(longuest_equation, shortest_equation):
     for key in key_to_delete:
         del longuest_equation[key]
     return longuest_equation
+
+    
 
 def print_output(reduced_equation):
     first = 1
@@ -48,6 +64,39 @@ def print_output(reduced_equation):
     print(f"Polynomial degree: {degree}")
     if int(degree) > 2:
         return print("The polynomial degree is strictly greater than 2, I can't solve.")
+    elif int(degree) == 2:
+        a, b, c  = get_abc(reduced_equation)
+        solving_equation_second_degree(a, b, c)
+        #print('a b c', a , b , c)
+
+def get_abc(equation):
+    a = equation.get('2', 0)
+    b = equation.get('1', 0)
+    c = equation.get('0', 0)
+    return a, b , c    
+    
+def solving_equation_second_degree(a, b, c):
+    """ 
+    to solve a second degree equation we need to get the discriminant(Δ).
+    Δ = b² - 4ac
+    if:
+        Δ < 0 there is no solution
+        Δ = 0 there is 1 solution
+        Δ > 0 2 solution 
+    """
+    delta = pow(b, 2) - (4 * a * c)
+    if delta < 0:
+        print(f"Discriminant is strictly negative ({delta}) , there is no solution")
+    elif delta == 0:
+        x0 = -b/(2 * a)
+        print(f"Discriminant equal {delta} , the only solution is ", "{:.6f}".format(x0))
+    else:
+        x1 = (-b - math.sqrt(delta)) / (2 * a)
+        x2 = (-b + math.sqrt(delta)) / (2 * a)
+        print(f"Discriminant is strictly positive ({delta}), the two solutions are:", 
+              '\n', "{:.6f}".format(x1) , '\n', "{:.6f}".format(x2))
+        
+        
 
 def main():
     """ remove comment after parsing
@@ -58,7 +107,7 @@ def main():
         return
     """
     
-    equation_str = '-8.5 + X^1 - X^2 + 2 * X^3 = X - 2 * X^2'
+    equation_str = '0 - 4 * X^1 + 4* X^2 = -1 * X^0'
     # ------ for later -------
     #left_equation = EquationSide(sys.argv[1], 'Left')
     #right_equation = EquationSide(sys.argv[1], 'Right')
@@ -77,9 +126,9 @@ def main():
     #print("right", right_equation.splitForCoefPol())
     
     if left_equation.length > right_equation.length:
-        left_equation.coefPol = reduce_equation(left_equation.coefPol, right_equation.coefPol)
+        left_equation.coefPol = equation_balancing(left_equation.coefPol, right_equation.coefPol)
     else:
-        right_equation.coefPol = reduce_equation(right_equation.coefPol, left_equation.coefPol)
+        right_equation.coefPol = equation_balancing(right_equation.coefPol, left_equation.coefPol)
     
     print(equation_str)
     print_output(left_equation.coefPol)
