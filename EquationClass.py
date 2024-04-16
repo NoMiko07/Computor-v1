@@ -1,5 +1,5 @@
 import re
-
+from collections import OrderedDict
 
 class EquationSide:
     """
@@ -19,10 +19,10 @@ class EquationSide:
         side (str): Indicates whether to process the left-hand side ('left') or the right-hand side ('right') of the equation.
         """
         self.splitedEquation: str = self.split_LorR(equation, side)  # Full equation
-        self.length: int = len(self.splitedEquation)  # Length of the full equation
         self.freeForm: OrderedDict[str, bool] = {}
         self.coefPol: OrderedDict[str, float] = self.splitForCoefPol()  # Ordered Dictionary to store the powers of 'x' in the equation
-
+        self.length: int = len(self.coefPol)  # Length of the full equation
+        
     def split_LorR(self, equation: str, side: str):
         """
         Splits the equation into its left or right side.
@@ -38,7 +38,7 @@ class EquationSide:
             return parts[1].strip()
         
     def splitForCoefPol(self):
-        coefPol: OrderedDict[str, float] = {}
+        coefPol: OrderedDict[str, float] = OrderedDict()
         terms = re.split(r'\s*([+-])\s*', self.splitedEquation)
         if terms[0] == '':
             terms.pop(0)
@@ -61,9 +61,9 @@ class EquationSide:
                 terms[i] = terms[i - 1] + terms[i]
             coefficient = self.find_coef(terms[i])
             power = self.find_power((terms[i]))
-            coefPol[power] = coefficient
+            if coefficient != 0:
+                coefPol[power] = coefficient
             i+=2
-        
         return coefPol
 
     def find_coef(self, formula: str) -> float:

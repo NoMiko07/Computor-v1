@@ -28,10 +28,19 @@ def equation_balancing(longuest_equation, shortest_equation):
                 if newvalue == 0:
                     key_to_delete.append(longuest_equation_key)
                 longuest_equation[longuest_equation_key] = newvalue
+    
+    for power, coef in shortest_equation.items():
+        if power not in longuest_equation:
+            if shortest_equation[power] < 0:
+                longuest_equation[power] =  abs(shortest_equation[power])
+            else:
+                longuest_equation[power] =  - shortest_equation[power]
         
     for key in key_to_delete:
         del longuest_equation[key]
-    return longuest_equation
+    
+    sorted_dict = dict(sorted(longuest_equation.items()))
+    return sorted_dict
 
     
 
@@ -64,9 +73,11 @@ def print_output(reduced_equation, freeform):
     elif int(degree) == 2:
         a, b, c  = get_abc(reduced_equation)
         solve_equation_second_degree(a, b, c)
-    else:
+    elif int(degree) == 1:
         a, b, c = get_abc(reduced_equation)
         solve_equation_first_degree(b, c)
+    else:
+        print("The equation can't be solved")
 
 def get_abc(equation):
     a = equation.get('2', 0)
@@ -112,13 +123,12 @@ def main():
     left_equation = EquationSide(equation_str, 'Left')
     right_equation = EquationSide(equation_str, 'Right')
     
-    if left_equation.length > right_equation.length:
+    
+    if left_equation.length >= right_equation.length:
         left_equation.coefPol = equation_balancing(left_equation.coefPol, right_equation.coefPol)
-        print(equation_str)
         print_output(left_equation.coefPol, left_equation.freeForm)
     else:
         right_equation.coefPol = equation_balancing(right_equation.coefPol, left_equation.coefPol)
-        print(equation_str)
         print_output(right_equation.coefPol, right_equation.freeForm)
     
 
