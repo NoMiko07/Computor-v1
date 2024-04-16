@@ -4,6 +4,7 @@ Computor is a Python script for solving polynomial equations of degree 2 or lowe
 
 # How to use it
 To execute the script, please type the following command in your terminal:
+
 %run computor.py "equation"
 
 Exemple: 
