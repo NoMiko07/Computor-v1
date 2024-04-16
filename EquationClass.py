@@ -1,5 +1,6 @@
 import re
 
+
 class EquationSide:
     """
     A class which takes a polynomial equation as an argument and 
@@ -19,6 +20,7 @@ class EquationSide:
         """
         self.splitedEquation: str = self.split_LorR(equation, side)  # Full equation
         self.length: int = len(self.splitedEquation)  # Length of the full equation
+        self.freeForm: OrderedDict[str, bool] = {}
         self.coefPol: OrderedDict[str, float] = self.splitForCoefPol()  # Ordered Dictionary to store the powers of 'x' in the equation
 
     def split_LorR(self, equation: str, side: str):
@@ -43,6 +45,16 @@ class EquationSide:
         i = 0
         if terms[0] == '-':
             i = 1
+        
+        positionX0 = -1
+        positionX1 = -1
+        for item in terms:
+            if positionX0 == -1:
+                positionX0 = item.find('X^0')
+            if positionX1 == -1:
+                positionX1 = item.find("X^1")
+        self.freeForm['0'] = True if positionX0 != -1 else False
+        self.freeForm['1'] = True if positionX1 != -1 else False
         
         while i < len(terms):
             if i >= 1:
