@@ -51,8 +51,7 @@ def print_output(reduced_equation, freeform):
 
     if not reduced_equation:
         print("0 = 0")
-        print("Polynomial degree: 0")
-        print("All real numbers are solutions.")
+        print("Any real number is a solution.")
         return
 
     if all(k == '0' for k in reduced_equation) and reduced_equation.get('0', 0) != 0:
