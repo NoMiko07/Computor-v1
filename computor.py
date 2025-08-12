@@ -1,6 +1,5 @@
 import sys
 from EquationClass import EquationSide
-import re
 import math
 
 
@@ -104,9 +103,7 @@ def solve_equation_second_degree(a, b, c):
         x1 = (-b - math.sqrt(delta)) / (2 * a)
         x2 = (-b + math.sqrt(delta)) / (2 * a)
         print(f"Discriminant is strictly positive ({delta}), the two solutions are:\n{x1:.6f}\n{x2:.6f}")
-        
-        
-        
+
 def solve_equation_first_degree(a, b):
     x = -b / a
     print("The solution is:")

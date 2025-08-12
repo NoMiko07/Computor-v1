@@ -61,7 +61,9 @@ class EquationSide:
                 terms[i] = terms[i - 1] + terms[i]
             coefficient = self.find_coef(terms[i])
             power = self.find_power((terms[i]))
-            if coefficient != 0:
+            if power in coefPol:
+                coefPol[power] += coefficient
+            else:
                 coefPol[power] = coefficient
             i+=2
         return coefPol
