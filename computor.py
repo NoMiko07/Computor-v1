@@ -48,7 +48,20 @@ def print_output(reduced_equation, freeform):
     degree = '0'
     
     print("Reduced form: ", end='')
-    
+
+    if not reduced_equation:
+        print("0 = 0")
+        print("Polynomial degree: 0")
+        print("All real numbers are solutions.")
+        return
+
+    if all(k == '0' for k in reduced_equation) and reduced_equation.get('0', 0) != 0:
+        coef = reduced_equation['0']
+        print(f"{coef} = 0")
+        print("Polynomial degree: 0")
+        print("No solution.")
+        return
+
     for power, coefficient in reduced_equation.items():
         if first == 0:
             if coefficient < 0:
@@ -58,25 +71,31 @@ def print_output(reduced_equation, freeform):
                 print("+", end=' ')
         if power in freeform and freeform[power] == False:
             if power == '1':
-                print(f'{coefficient} * X', end = ' ')
+                print(f'{coefficient} * X', end=' ')
             else:
-                print(f'{coefficient}', end = ' ')
+                print(f'{coefficient}', end=' ')
         else:
-            print(f'{coefficient} * X^{power}', end = ' ')
+            print(f'{coefficient} * X^{power}', end=' ')
         degree = power
         if first > 0:
             first = 0
+
     print(f"= 0\nPolynomial degree: {degree}")
+
     if int(degree) > 2:
-        return print("The polynomial degree is strictly greater than 2, I can't solve.")
+        print("The polynomial degree is strictly greater than 2, I can't solve.")
     elif int(degree) == 2:
-        a, b, c  = get_abc(reduced_equation)
+        a, b, c = get_abc(reduced_equation)
         solve_equation_second_degree(a, b, c)
     elif int(degree) == 1:
         a, b, c = get_abc(reduced_equation)
         solve_equation_first_degree(b, c)
     else:
-        print("The equation can't be solved")
+        if reduced_equation.get('0', 0) == 0:
+            print("All real numbers are solutions.")
+        else:
+            print("No solution.")
+
 
 def get_abc(equation):
     a = equation.get('2', 0)
