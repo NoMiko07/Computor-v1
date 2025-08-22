@@ -1,8 +1,8 @@
 import sys
 from EquationClass import EquationSide
 import math
-
-
+from math import gcd
+from fractions import Fraction
 
 def equation_balancing(longuest_equation, shortest_equation):
     """ Balance the equation so that the result is equal to 0.
@@ -101,7 +101,21 @@ def get_abc(equation):
     b = equation.get('1', 0)
     c = equation.get('0', 0)
     return a, b , c    
-    
+
+
+def format_fraction(num, den):
+    frac = Fraction(num/den).limit_denominator()
+    if frac.denominator == 1:
+        return str(frac.numerator)
+    return f"{frac.numerator}/{frac.denominator}"
+
+def solve_quadratic(a, b, delta):
+    real_part = format_fraction(-b, 2*a)
+    imag_part = format_fraction(((-delta)**0.5), 2*a)
+
+    print(f"{real_part} + {imag_part}i")
+    print(f"{real_part} - {imag_part}i")
+
 def solve_equation_second_degree(a, b, c):
     """ 
     to solve a second degree equation we need to get the discriminant(Δ).
@@ -113,7 +127,8 @@ def solve_equation_second_degree(a, b, c):
     """
     delta = pow(b, 2) - (4 * a * c)
     if delta < 0:
-        print(f"Discriminant is strictly negative ({delta}) , there is no solution")
+        print(f"Discriminant is strictly negative ({delta}), the two complex solutions are:")
+        solve_quadratic(a, b, delta)
     elif delta == 0:
         x0 = -b/(2 * a)
         print(f"Discriminant equal {delta} , the only solution is {x0:.6f}")
