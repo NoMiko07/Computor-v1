@@ -101,8 +101,30 @@ def get_abc(equation):
     c = equation.get('0', 0)
     return a, b , c    
 
-
 def format_fraction(num, den):
+    print(num, den)
+    frac = Fraction(num).limit_denominator() / Fraction(den).limit_denominator()
+    if frac.denominator == 1:
+        return str(frac.numerator)
+    return f"{frac.numerator}/{frac.denominator}"
+
+def solve_quadratic(a, b, delta):
+    real_part = format_fraction(-b, 2*a)
+
+    sqrt_delta = (-delta) ** 0.5
+    if abs(sqrt_delta - round(sqrt_delta)) < 1e-9:
+        imag_part = format_fraction(((-delta)**0.5), 2*a)
+        print(f"{real_part} + {imag_part}i")
+        print(f"{real_part} - {imag_part}i")
+    else:
+        sqrt_delta = int(-delta)
+        denom = format_fraction(2*a, 1)
+        print(f"{real_part} + √{sqrt_delta}/{denom}i")
+        print(f"{real_part} - √{sqrt_delta}/{denom}i")
+
+"""
+def format_fraction(num, den):
+    print(num, den)
     frac = Fraction(num/den).limit_denominator()
     if frac.denominator == 1:
         return str(frac.numerator)
@@ -114,7 +136,7 @@ def solve_quadratic(a, b, delta):
 
     print(f"{real_part} + {imag_part}i")
     print(f"{real_part} - {imag_part}i")
-
+"""
 def solve_equation_second_degree(a, b, c):
     """ 
     to solve a second degree equation we need to get the discriminant(Δ).
