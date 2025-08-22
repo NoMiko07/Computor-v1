@@ -1,7 +1,6 @@
 import sys
 from EquationClass import EquationSide
 import math
-from math import gcd
 from fractions import Fraction
 
 def equation_balancing(longuest_equation, shortest_equation):
