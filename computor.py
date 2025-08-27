@@ -122,21 +122,6 @@ def solve_quadratic(a, b, delta):
         print(f"{real_part} + √{sqrt_delta}/{denom}i")
         print(f"{real_part} - √{sqrt_delta}/{denom}i")
 
-"""
-def format_fraction(num, den):
-    print(num, den)
-    frac = Fraction(num/den).limit_denominator()
-    if frac.denominator == 1:
-        return str(frac.numerator)
-    return f"{frac.numerator}/{frac.denominator}"
-
-def solve_quadratic(a, b, delta):
-    real_part = format_fraction(-b, 2*a)
-    imag_part = format_fraction(((-delta)**0.5), 2*a)
-
-    print(f"{real_part} + {imag_part}i")
-    print(f"{real_part} - {imag_part}i")
-"""
 def solve_equation_second_degree(a, b, c):
     """ 
     to solve a second degree equation we need to get the discriminant(Δ).

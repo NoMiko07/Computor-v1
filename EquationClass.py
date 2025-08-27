@@ -21,7 +21,7 @@ class EquationSide:
         self.splitedEquation: str = self.split_LorR(equation, side)  # Full equation
         self.freeForm: OrderedDict[str, bool] = {}
         self.coefPol: OrderedDict[str, float] = self.splitForCoefPol()  # Ordered Dictionary to store the powers of 'x' in the equation
-        self.length: int = len(self.coefPol)  # Length of the full equation
+        self.length: int = len(self.coefPol)
         
     def split_LorR(self, equation: str, side: str):
         """
