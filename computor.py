@@ -111,7 +111,6 @@ def get_abc(equation):
     return a, b , c    
 
 def format_fraction(num, den):
-    print(num, den)
     frac = Fraction(num).limit_denominator() / Fraction(den).limit_denominator()
     if frac.denominator == 1:
         return str(frac.numerator)
@@ -119,7 +118,6 @@ def format_fraction(num, den):
 
 def solve_quadratic(a, b, delta):
     real_part = format_fraction(-b, 2*a)
-
     sqrt_delta = (-delta) ** 0.5
     if abs(sqrt_delta - round(sqrt_delta)) < 1e-9:
         imag_part = format_fraction(((-delta)**0.5), 2*a)
