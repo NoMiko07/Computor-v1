@@ -1,6 +1,5 @@
 import sys
 from EquationClass import EquationSide
-import math
 from fractions import Fraction
 
 def equation_balancing(longuest_equation, shortest_equation):
@@ -40,6 +39,16 @@ def equation_balancing(longuest_equation, shortest_equation):
     sorted_dict = dict(sorted(longuest_equation.items()))
     return sorted_dict
 
+def sqrt(x: float, precision: float = 1e-10) -> float:
+    if x < 0:
+        raise ValueError("x can't be negative")
+    if x == 0:
+        return 0.0
+    
+    r = x
+    while abs(r * r - x) > precision:
+        r = (r + x / r) / 2
+    return r
     
 
 def print_output(reduced_equation, freeform):
@@ -139,8 +148,8 @@ def solve_equation_second_degree(a, b, c):
         x0 = -b/(2 * a)
         print(f"Discriminant equal {delta} , the only solution is {x0:.6f}")
     else:
-        x1 = (-b - math.sqrt(delta)) / (2 * a)
-        x2 = (-b + math.sqrt(delta)) / (2 * a)
+        x1 = (-b - sqrt(delta)) / (2 * a)
+        x2 = (-b + sqrt(delta)) / (2 * a)
         print(f"Discriminant is strictly positive ({delta}), the two solutions are:\n{x1:.6f}\n{x2:.6f}")
 
 def solve_equation_first_degree(a, b):
@@ -149,24 +158,27 @@ def solve_equation_first_degree(a, b):
     print(x)
 
 def main():
-    equation_str = ''
-    if len(sys.argv) > 1:
-        equation_str = sys.argv[1]
-    else:
-        print("no argument")
-        return    
-    
-    left_equation = EquationSide(equation_str, 'Left')
-    right_equation = EquationSide(equation_str, 'Right')
-    
-    
-    if left_equation.length >= right_equation.length:
-        left_equation.coefPol = equation_balancing(left_equation.coefPol, right_equation.coefPol)
-        print_output(left_equation.coefPol, left_equation.freeForm)
-    else:
-        right_equation.coefPol = equation_balancing(right_equation.coefPol, left_equation.coefPol)
-        print_output(right_equation.coefPol, right_equation.freeForm)
-    
+    try:
+        equation_str = ''
+        if len(sys.argv) > 1:
+            equation_str = sys.argv[1]
+        else:
+            print("No argument provided")
+            return    
+
+        left_equation = EquationSide(equation_str, 'Left')
+        right_equation = EquationSide(equation_str, 'Right')
+
+        if left_equation.length >= right_equation.length:
+            left_equation.coefPol = equation_balancing(left_equation.coefPol, right_equation.coefPol)
+            print_output(left_equation.coefPol, left_equation.freeForm)
+        else:
+            right_equation.coefPol = equation_balancing(right_equation.coefPol, left_equation.coefPol)
+            print_output(right_equation.coefPol, right_equation.freeForm)
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
 
 if __name__ == "__main__":
     main()

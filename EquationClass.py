@@ -108,6 +108,8 @@ class EquationSide:
         positionXPower = formula.find("X^")
         
         if positionXPower != -1:
+            if not formula.split('X^')[1].isdigit():
+                raise ValueError("Power has to >= 0")
             return formula.split('X^')[1]
         elif positionX != -1:
             return '1'
