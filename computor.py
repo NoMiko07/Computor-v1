@@ -39,16 +39,13 @@ def equation_balancing(longuest_equation, shortest_equation):
     sorted_dict = dict(sorted(longuest_equation.items()))
     return sorted_dict
 
-def sqrt(x: float, precision: float = 1e-10) -> float:
+def sqrt(x: float) -> float:
     if x < 0:
         raise ValueError("x can't be negative")
     if x == 0:
         return 0.0
     
-    r = x
-    while abs(r * r - x) > precision:
-        r = (r + x / r) / 2
-    return r
+    return x ** 0.5
     
 
 def print_output(reduced_equation, freeform):
@@ -117,17 +114,19 @@ def format_fraction(num, den):
     return f"{frac.numerator}/{frac.denominator}"
 
 def solve_quadratic(a, b, delta):
-    real_part = format_fraction(-b, 2*a)
-    sqrt_delta = (-delta) ** 0.5
+    real_part = format_fraction(-b, 2 * a)
+    sqrt_delta = sqrt(abs(delta))
+    
     if abs(sqrt_delta - round(sqrt_delta)) < 1e-9:
-        imag_part = format_fraction(((-delta)**0.5), 2*a)
+        imag_part = format_fraction(sqrt(abs(delta)), 2 * a)
         print(f"{real_part} + {imag_part}i")
         print(f"{real_part} - {imag_part}i")
     else:
-        sqrt_delta = int(-delta)
-        denom = format_fraction(2*a, 1)
+        sqrt_delta = int(abs(delta))
+        denom = format_fraction(2 * a, 1)
         print(f"{real_part} + √{sqrt_delta}/{denom}i")
         print(f"{real_part} - √{sqrt_delta}/{denom}i")
+
 
 def solve_equation_second_degree(a, b, c):
     """ 
