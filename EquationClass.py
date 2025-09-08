@@ -66,6 +66,11 @@ class EquationSide:
             else:
                 coefPol[power] = coefficient
             i+=2
+        
+        to_delete = [power for power, coef in coefPol.items() if coef == 0]
+        for power in to_delete:
+            del coefPol[power]
+
         return coefPol
 
     def find_coef(self, formula: str) -> float:
