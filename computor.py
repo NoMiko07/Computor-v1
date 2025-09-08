@@ -154,6 +154,7 @@ def solve_equation_first_degree(a, b):
     print("The solution is:")
     print(x)
 
+
 def main():
     try:
         equation_str = ''
@@ -176,6 +177,32 @@ def main():
     except Exception as e:
         print(f"An error occurred: {e}")
 
+"""
+def main():
+    try:
+        equation_str = ["5 * X^0 + 4 * X^1 - 9.3 * X^2 = 1 * X^0", 
+                        "5 * X^0 + 4 * X^1 = 4 * X^0",
+                        "8 * X^0 - 6 * X^1 + 0 * X^2 - 5.6 * X^3 = 3 * X^0",
+                        "6 * X^0 = 6 * X^0",
+                        "10 * X^0 = 15 * X^0",
+                        "1 * X^0 + 2 * X^1 + 5 * X^2 = 0"
+                        ]
+        
+        for equation in equation_str:
+
+            left_equation = EquationSide(equation, 'Left')
+            right_equation = EquationSide(equation, 'Right')
+
+            if left_equation.length >= right_equation.length:
+                left_equation.coefPol = equation_balancing(left_equation.coefPol, right_equation.coefPol)
+                print_output(left_equation.coefPol, left_equation.freeForm)
+            else:
+                right_equation.coefPol = equation_balancing(right_equation.coefPol, left_equation.coefPol)
+                print_output(right_equation.coefPol, right_equation.freeForm)
+            print("\n")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+"""
 
 if __name__ == "__main__":
     main()
